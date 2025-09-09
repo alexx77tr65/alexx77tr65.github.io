@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Archivos Atlas</title>
+    <style>
+        :root {
+            /* Colores y variables */
+            --bg-color: rgba(255, 255, 255, 0.9);
+            --text-color: #000000;
+            --accent: #0d6efd;
+            --muted: #000000;
+            --danger: #e11d48;
+            --panel-bg: rgba(255, 255, 255, 0.85);
+            --max-width: 900px;
+            --container-padding: 2rem;
+        }
+
+        /* Reset y estilos base */
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            color: var(--text-color);
+            background: url('https://aguarins.wordpress.com/wp-content/uploads/2014/05/entrega_banderas_81.jpg') no-repeat center center fixed;
+            background-size: cover;
+            text-align: center;
+        }
+
+        .page {
+            background: linear-gradient(rgba(255, 255, 255, 0.65), rgba(255, 255, 255, 0.65));
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1.5rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: var(--max-width);
+            background: var(--panel-bg);
+            border-radius: 10px;
+            padding: var(--container-padding);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+            margin: 1rem 0;
+        }
+
+        header {
+            width: 100%;
+            max-width: var(--max-width);
+            margin-top: 0.5rem;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap; /* Permite que los elementos salten de línea */
+            gap: 1rem;
+            padding: 0.75rem 1rem;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-color);
+            padding: 0.5rem 0.8rem;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: background 0.2s, color 0.2s;
+            white-space: nowrap; /* Evita saltos de línea en los botones */
+        }
+
+        nav a:hover,
+        nav a.active {
+            background: rgba(13, 110, 253, 0.12);
+            color: var(--accent);
+        }
+
+        h1, h2 {
+            margin: 0.5rem 0 1rem;
+            color: var(--accent);
+            text-align: center;
+        }
+
+        h2 {
+            font-size: clamp(1.5rem, 4vw, 2.25rem); 
+        }
+
+        p {
+            color: var(--muted);
+            line-height: 1.6;
+            text-align: center;
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+        }
+
+        .panel { text-align: center; }
+
+        .archivo-lista {
+            list-style: none;
+            padding: 0;
+            margin: 1rem auto 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .archivo-lista li {
+            width: 100%;
+            max-width: 560px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 6px;
+            padding: 0.5rem 0.75rem;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+            text-align: center;
+        }
+
+        .archivo-lista a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 600;
+            display: block; 
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .archivo-lista a:hover {
+            color: var(--accent);
+            text-decoration: underline;
+        }
+
+        .small { font-size: 0.95rem; }
+        .empty { color: var(--muted); margin-top: 1rem; display: block; }
+        .hidden { display: none !important; }
+
+        input[type="file"] { margin-top: 0.5rem; }
+        input[type="text"] {
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            width: 100%;
+            max-width: 400px;
+            box-sizing: border-box;
+            margin-top: 0.5rem;
+            text-align: center;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.25);
+        }   
+        @media (max-width: 600px) {
+            .page {
+                padding: 1rem;
+            }
+            .container {
+                padding: 1rem;
+            }
+            nav {
+                flex-direction: column; 
+                gap: 0.5rem;
+            }
+            nav a {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <header>
+            <nav aria-label="Navegación principal">
+                <a href="#" id="btn-recopilador" class="active">Subir</a>
+                <a href="#" id="btn-buscar">Buscar</a>
+                <a href="#" id="btn-nosotros">Nosotros</a>
+                <a href="#" id="btn-contacto">Contacto</a>
+            </nav>
+        </header>
+
+        <main class="container" role="main">
+            <section class="recopilador panel" id="seccion-recopilador">
+                <h2>Recopilador de Archivos</h2>
+                <form id="form-archivos" class="small" onsubmit="return false;">
+                    <label for="archivo">Selecciona archivos (múltiples permitidos):</label><br>
+                    <input type="file" id="archivo" name="archivo" multiple aria-label="Seleccionar archivos">
+                    <ul class="archivo-lista" id="archivo-lista" aria-live="polite"></ul>
+                    <span id="archivo-empty" class="empty small">No hay archivos seleccionados.</span>
+                </form>
+            </section>
+
+            <section id="seccion-buscar" class="panel hidden">
+                <h2>Buscar Archivos</h2>
+                <div class="small">
+                    <input type="text" id="buscar-input" placeholder="Escribe parte del nombre..." aria-label="Buscar archivos">
+                    <p style="margin-top:0.5rem;color:var(--muted);">Escribe para filtrar los archivos listados en "Recopilador".</p>
+                </div>
+            </section>
+
+            <section id="seccion-nosotros" class="panel hidden small">
+                <h2>Sobre Nosotros</h2>
+                <p>nosotros como equipo buscamos compartir y preservar el conocimiento a través de la recopilación de archivos valiosos para facilitar el estudio de los estudiantes para que puedan acceder a recursos útiles y mejorar su aprendizaje.</p>
+            </section>
+
+            <section id="seccion-contacto" class="panel hidden small">
+                <h2>Contacto</h2>
+                <p>Correo: proyectoatlas04@gmail.com</p>
+                <p>Teléfono: +57 3197741431</p>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const dom = {
+                navButtons: document.querySelectorAll('nav a'),
+                inputArchivo: document.getElementById('archivo'),
+                listaArchivos: document.getElementById('archivo-lista'),
+                archivoEmpty: document.getElementById('archivo-empty'),
+                buscarInput: document.getElementById('buscar-input'),
+                allSections: document.querySelectorAll('main > section')
+            };
+
+            const fileCache = new Map();
+            const createdObjectURLs = new Set();
+            let currentFiles = [];
+
+            const switchSection = (targetId) => {
+                dom.allSections.forEach(section => {
+                    section.classList.toggle('hidden', section.id !== targetId);
+                });
+                dom.navButtons.forEach(btn => {
+                    const btnSectionId = `seccion-${btn.id.replace('btn-', '')}`;
+                    btn.classList.toggle('active', btnSectionId === targetId);
+                });
+            };
+
+            const updateEmptyState = (message = 'No hay archivos seleccionados.') => {
+                const hasVisibleFiles = [...dom.listaArchivos.children].some(li => li.style.display !== 'none');
+                const hasFiles = currentFiles.length > 0;
+                
+                dom.archivoEmpty.textContent = hasFiles && !hasVisibleFiles ? 'No se encontraron archivos con ese nombre.' : message;
+                dom.archivoEmpty.style.display = (hasFiles && hasVisibleFiles) ? 'none' : 'block';
+            };
+
+            const renderFiles = (files) => {
+                currentFiles = files ? [...files] : [];
+                clearObjectURLs();
+                fileCache.clear();
+                dom.listaArchivos.innerHTML = '';
+                
+                if (currentFiles.length === 0) {
+                    updateEmptyState();
+                    return;
+                }
+
+                const fragment = document.createDocumentFragment();
+                currentFiles.forEach((file, index) => {
+                    const li = document.createElement('li');
+                    const a = document.createElement('a');
+                    
+                    const url = URL.createObjectURL(file);
+                    createdObjectURLs.add(url);
+                    a.href = url;
+                    a.target = '_blank';
+                    a.rel = 'noopener noreferrer';
+                    a.textContent = file.name;
+                    a.setAttribute('aria-label', `Abrir ${file.name}`);
+                    
+                    li.appendChild(a);
+                    fragment.appendChild(li);
+
+                    fileCache.set(file.name.toLowerCase(), li);
+                });
+
+                dom.listaArchivos.appendChild(fragment);
+                updateEmptyState();
+            };
+
+            const filterFiles = () => {
+                const query = dom.buscarInput.value.trim().toLowerCase();
+                let hasVisibleFiles = false;
+
+                fileCache.forEach((listItem, fileName) => {
+                    const isVisible = fileName.includes(query);
+                    listItem.style.display = isVisible ? '' : 'none';
+                    if (isVisible) hasVisibleFiles = true;
+                });
+                
+                updateEmptyState();
+            };
+
+            const clearObjectURLs = () => {
+                createdObjectURLs.forEach(url => URL.revokeObjectURL(url));
+                createdObjectURLs.clear();
+            };
+
+            // Event Listeners
+            dom.navButtons.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const sectionId = `seccion-${btn.id.replace('btn-', '')}`;
+                    switchSection(sectionId);
+                });
+            });
+
+            dom.inputArchivo.addEventListener('change', (e) => renderFiles(e.target.files));
+            dom.buscarInput.addEventListener('input', filterFiles);
+            window.addEventListener('beforeunload', clearObjectURLs);
+
+            
+            switchSection('seccion-recopilador');
+        });
+    </script>
+</body>
+</html>
